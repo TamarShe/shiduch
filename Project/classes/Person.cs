@@ -10,6 +10,7 @@ namespace Project.Classes.Person
 {
     public class Person
     {
+       //בוא נראה אם זה שומר שינוים
         [DisplayName("קוד")]
         public string id { get; set; }
         [DisplayName("בחור/ה")]
