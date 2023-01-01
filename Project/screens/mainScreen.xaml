@@ -1,0 +1,217 @@
+﻿<Window x:Class="Project.mainScreen"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Project"
+        mc:Ignorable="d"
+        WindowState="Normal"
+        WindowStyle="ToolWindow"
+        Width="{x:Static SystemParameters.PrimaryScreenWidth}"
+        Height="{x:Static SystemParameters.PrimaryScreenHeight}"
+        WindowStartupLocation="CenterScreen"
+        Title="ראשי"
+        FlowDirection="RightToLeft" 
+        FontFamily="Calibry" 
+        BorderBrush="DeepSkyBlue"
+        BorderThickness="4"
+        Closing="Window_Closing"
+        Background="LightYellow">
+    <Grid FlowDirection="RightToLeft">
+        <Grid.Style>
+            <Style/>
+        </Grid.Style>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48*"/>
+            <RowDefinition Height="169*"/>
+        </Grid.RowDefinitions>
+        <Button 
+            Name="btn1" 
+            MouseLeave="mouseLeave"
+            MouseEnter="mouseEnter"
+            Background="DeepSkyBlue" 
+            Foreground="LightYellow" 
+            FontWeight="Medium" 
+            BorderThickness="0"
+            FontSize="28"
+            Cursor="Hand"
+            Content="הוספה"
+            Click="openMenu"
+            Margin="53,51,1185,51">
+            <Button.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="30"/>
+                </Style>
+            </Button.Resources>
+
+            <Button.ContextMenu >
+                <ContextMenu 
+                    Background="LightYellow"
+                    Margin="3"
+                    Padding="3"
+                    FontSize="20"
+                    Name="contextMenu"
+                    BorderBrush="DeepSkyBlue"
+                    BorderThickness="1"
+                    FlowDirection="RightToLeft">
+                    <MenuItem 
+                        MouseLeave="mouseLeave1"
+                        MouseEnter="mouseEnter1"
+                        Click="openAddWindowM"
+                        Header="בחור">
+                        <MenuItem.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </MenuItem.Resources>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem 
+                        Click="openAddWindowF"  
+                        MouseLeave="mouseLeave1"
+                        MouseEnter="mouseEnter1" 
+                        Header="בחורה" >
+                        <MenuItem.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </MenuItem.Resources>
+                    </MenuItem>
+                    <ContextMenu.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </ContextMenu.Resources>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
+        <DataGrid 
+            Name="dataGrid" 
+            FlowDirection="RightToLeft" 
+            HorizontalAlignment="Left" 
+            Height="436" 
+            Margin="78,54,0,0"
+            Grid.Row="1" 
+            VerticalAlignment="Top" 
+            Width="1228" 
+            Background="White"
+            BorderThickness="0"
+            RowHeight="30"
+            FontFamily="Calibri"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            ColumnHeaderHeight="35"
+            IsReadOnly="True"
+            FontSize="15"
+            d:ItemsSource="{d:SampleData ItemCount=5}" 
+            IsSynchronizedWithCurrentItem="True"
+            AutoGeneratingColumn="dataGrid_AutoGeneratingColumn">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow" >
+                    <EventSetter 
+                        Event="MouseDoubleClick"
+                        Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.ContextMenu >
+                <ContextMenu 
+                    Background="LightYellow"
+                    Margin="3"
+                    Padding="3"
+                    FontSize="20"
+                    Name="tableContextMenu"
+                    BorderBrush="DeepSkyBlue"
+                    BorderThickness="1"
+                    FlowDirection="RightToLeft">
+                    <MenuItem 
+                        MouseLeave="mouseLeave1"
+                        MouseEnter="mouseEnter1"
+                        Click="editPerson"
+                        Header="עריכה">
+                        <MenuItem.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </MenuItem.Resources>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem 
+                        Click="deletePerson"  
+                        MouseLeave="mouseLeave1"
+                        MouseEnter="mouseEnter1" 
+                        Header="מחיקה" >
+                        <MenuItem.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </MenuItem.Resources>
+                    </MenuItem>
+                    <ContextMenu.Resources>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="5" />
+                        </Style>
+                    </ContextMenu.Resources>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+
+        </DataGrid>
+        <CheckBox Name="mCbx" Click="mCbx_Click" Content="בחור" HorizontalAlignment="Left" Margin="465,126,0,0" VerticalAlignment="Top"/>
+        <CheckBox Name="fCbx" Click="fCbx_Click" Content="בחורה" HorizontalAlignment="Left" Margin="465,82,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="mitpachatCbx" Click="mitpachatCbx_Click" Content="מטפחת" HorizontalAlignment="Left" Margin="543,126,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="peaCbx" Click="peaCbx_Click" Content="פאה" HorizontalAlignment="Left" Margin="543,82,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="workCbx" Click="workCbx_Click" Content="עובד" HorizontalAlignment="Left" Margin="626,127,0,0" VerticalAlignment="Top"/>
+        <CheckBox x:Name="learnCbx" Click="learnCbx_Click" Content="לומד" HorizontalAlignment="Left" Margin="626,83,0,0" VerticalAlignment="Top"/>
+        <Label Content="עדה" HorizontalAlignment="Left" Height="33" Margin="188,482,0,0" VerticalAlignment="Top" Width="65" FontFamily="Calibri" FontSize="18" Grid.Column="1"/>
+
+        <ListBox ItemsSource="{DynamicResource edot}" Name="edaListCbx" Margin="344,82,914,10" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox  Checked="edaListBox" FlowDirection="LeftToRight" IsChecked="{Binding isSelected, Mode=TwoWay}" />
+                        <TextBlock Text="{Binding name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <ListBox ItemsSource="{DynamicResource motsa}" Name="motsaListCbx" Margin="220,82,1038,10" d:ItemsSource="{d:SampleData ItemCount=5}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Click="motsaListBox" FlowDirection="LeftToRight" IsChecked="{Binding isSelected, Mode=TwoWay}" />
+                        <TextBlock Text="{Binding name}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBox Name="freeSearchTxb" 
+                 Text="חיפוש" 
+                 Foreground="gray" 
+                 FontStyle="Italic" 
+                 TextChanged="freeSearchTxb_TextChanged" 
+                 Height="32" 
+                 Margin="1070,82,119,51" 
+                 Width="169" 
+                 PreviewMouseDown="freeSearchTxb_PreviewMouseDown"
+                 FontFamily="Calibri" 
+                 FontSize="18">
+
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="5"/>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+        <Button Content="X" FontSize="15"
+               FontWeight="Medium"
+                Background="Transparent"
+                BorderThickness="0"
+                Cursor="Hand"
+               HorizontalAlignment="Left" 
+               Height="36" Margin="1237,80,0,0" 
+               Click="Button_Click"
+               VerticalAlignment="Top" Width="35"/>
+      
+    </Grid>
+</Window>

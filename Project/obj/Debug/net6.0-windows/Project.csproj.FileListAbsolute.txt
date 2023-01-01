@@ -1,0 +1,52 @@
+D:\שידוך WPF\Project\Project\bin\Debug\net6.0-windows\Project.exe
+D:\שידוך WPF\Project\Project\bin\Debug\net6.0-windows\Project.deps.json
+D:\שידוך WPF\Project\Project\bin\Debug\net6.0-windows\Project.runtimeconfig.json
+D:\שידוך WPF\Project\Project\bin\Debug\net6.0-windows\Project.dll
+D:\שידוך WPF\Project\Project\bin\Debug\net6.0-windows\Project.pdb
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.csproj.AssemblyReference.cache
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\App.g.cs
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project_MarkupCompile.cache
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project_MarkupCompile.lref
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.g.resources
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.GeneratedMSBuildEditorConfig.editorconfig
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.AssemblyInfoInputs.cache
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.AssemblyInfo.cs
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.csproj.CoreCompileInputs.cache
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.dll
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\refint\Project.dll
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.pdb
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.genruntimeconfig.cache
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\ref\Project.dll
+D:\שידוך WPF\Project\Project\bin\Debug\net6.0-windows\Project.dll.config
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\screens\addWindow.g.cs
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\screens\mainScreen.g.cs
+D:\שידוך WPF\Project\Project\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\screens\addWindow.baml
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\screens\mainScreen.baml
+D:\שידוך WPF\Project\Project\obj\Debug\net6.0-windows\Project.csproj.CopyComplete
+C:\Users\User\Desktop\Project\Project\bin\Debug\net6.0-windows\Project.exe
+C:\Users\User\Desktop\Project\Project\bin\Debug\net6.0-windows\Project.dll.config
+C:\Users\User\Desktop\Project\Project\bin\Debug\net6.0-windows\Project.deps.json
+C:\Users\User\Desktop\Project\Project\bin\Debug\net6.0-windows\Project.runtimeconfig.json
+C:\Users\User\Desktop\Project\Project\bin\Debug\net6.0-windows\Project.dll
+C:\Users\User\Desktop\Project\Project\bin\Debug\net6.0-windows\Project.pdb
+C:\Users\User\Desktop\Project\Project\bin\Debug\net6.0-windows\Newtonsoft.Json.dll
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.csproj.AssemblyReference.cache
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\screens\addWindow.g.cs
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\screens\mainScreen.g.cs
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project_MarkupCompile.cache
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project_MarkupCompile.lref
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\screens\addWindow.baml
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\screens\mainScreen.baml
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.g.resources
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.AssemblyInfoInputs.cache
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.AssemblyInfo.cs
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.csproj.CoreCompileInputs.cache
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.csproj.CopyComplete
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.dll
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\refint\Project.dll
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.pdb
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\Project.genruntimeconfig.cache
+C:\Users\User\Desktop\Project\Project\obj\Debug\net6.0-windows\ref\Project.dll
