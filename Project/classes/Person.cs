@@ -11,6 +11,9 @@ namespace Project.Classes.Person
     public class Person
     {
        //בוא נראה אם זה שומר שינוים
+       /// <summary>
+       /// /kjsdhfsdjkfhkdjh
+       /// </summary>
         [DisplayName("קוד")]
         public string id { get; set; }
         [DisplayName("בחור/ה")]
