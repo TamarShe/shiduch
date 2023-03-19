@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\User\Desktop\Project\Project\App.xaml
-2444614721
+41656861597
 
-9-2111835929
-195-1656428855
-screens\addWindow.xaml;screens\mainScreen.xaml;
+10189368986
+204-1398388964
+screens\addWindow.xaml;screens\css.xaml;screens\mainScreen.xaml;screens\Window1.xaml;
 
-False
+True
 

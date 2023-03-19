@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="MenuItemStyle"
+    TargetType="{x:Type MenuItem}">
+        <Setter Property="Foreground" Value="#FF52B726"/>
+        <Setter Property="Background" Value="#FFF1F9F1"/>
+        <Setter Property="FontWeight" Value="UltraLight"/>
+        <Style.Triggers>
+            <Trigger Property="IsHighlighted" Value="True">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="#FF3C9815"/>
+                <Setter Property="FontWeight" Value="SemiBold"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

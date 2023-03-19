@@ -3,116 +3,74 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Project.Classes;
 using Project.Classes.Person;
-using System.Text.Json;
 using Project.classes;
 using System.Data;
 using System.ComponentModel;
 using System.Reflection;
+using MahApps.Metro.Controls;
+using Newtonsoft.Json;
+using Project.Classes;
 
 namespace Project
 {
-    class Filter
+    public partial class mainScreen : MetroWindow
     {
-        public string name { get; set; }
-        public bool isSelected { get; set; }
-        public Filter(string name, bool isSelcted)
-        {
-            this.name = name;
-            this.isSelected = isSelected;
-        }
-
-        
-    }
-
-
-    public partial class mainScreen : Window
-    {
-        List<Filter> eFilters = new List<Filter>();
-        List<Filter> mFilters = new List<Filter>();
-
+        public string[] migzar;
+        public string[] edot;
+        public string[] kisooyRosh = new string[] { "פאה", "מטפחת", "לא משנה" };
+        public string[] statuses = new string[] { "רווק/ה", "גרוש/ה", "אלמן/ה" };
+        string remarks = "";
         List<Person> filteredPeople = people.peopleList;
-        DataTable table;
 
         public mainScreen()
         {
             InitializeComponent();
-            string peopleAsJsonString = File.ReadAllText("..//..//..//people.json");
-            people.peopleList = JsonSerializer.Deserialize<List<Person>>(peopleAsJsonString);
+            ExcelManager.ReadExcel();
+            this.remarks = File.ReadAllText("..//..//..//remarks.txt");
+            statusTxb.Text = this.remarks;
             dataGrid.ItemsSource = people.peopleList;
-            // dataGrid.Columns.RemoveAt(1);
-            people.peopleList.ForEach(p => eFilters.Add(new Filter(p.eda, false)));
-            people.peopleList.ForEach(p => mFilters.Add(new Filter(p.motsa, false)));
-            Resources["edot"] = eFilters;
-            Resources["motsa"] = mFilters;
+            this.FillCmb();
         }
 
-        void updatePerson(object sender, RoutedEventArgs e)
+        public void FillCmb()
         {
-            addWindow addWindow = new addWindow(dataGrid.SelectedItem,this);
-            addWindow.Show();
+            migzar = people.peopleList.Select(p => p.migzar).Distinct().ToArray();
+            edot = people.peopleList.Select(p => p.eda).Distinct().ToArray();
+            migzarCmb.ItemsSource = migzar;
+            edaCmb.ItemsSource = edot;
+            kisooyCmb.ItemsSource = kisooyRosh;
+            statusCmb.ItemsSource = statuses;
         }
+
 
         void openAddWindowF(object sender, RoutedEventArgs e)
         {
-            addWindow addWindow = new addWindow("בחורה",this);
+            addWindow addWindow = new addWindow(this, "נקבה");
             addWindow.Show();
             dataGrid.DataContext = people.peopleList;
+            FillCmb();
         }
 
         void openAddWindowM(object sender, RoutedEventArgs e)
         {
-            addWindow addWindow = new addWindow("בחור", this);
+            addWindow addWindow = new addWindow(this, "זכר");
             addWindow.Show();
             dataGrid.DataContext = people.peopleList;
+            FillCmb();
         }
 
-        void mouseEnter(object sender, RoutedEventArgs e)
-        {
-            Button b = (Button)sender;
-            b.Background = Brushes.LightBlue;
-            b.Foreground = Brushes.Gray;
-        }
 
-        void mouseLeave(object sender, RoutedEventArgs e)
-        {
-            Button b = (Button)sender;
-            b.Background = Brushes.DeepSkyBlue;
-            b.Foreground = Brushes.LightYellow;
-        }
-
-        void mouseEnter1(object sender, RoutedEventArgs e)
-        {
-            MenuItem b = (MenuItem)sender;
-            b.Background = Brushes.LightBlue;
-        }
-
-        void mouseLeave1(object sender, RoutedEventArgs e)
-        {
-            MenuItem b = (MenuItem)sender;
-            b.Background = Brushes.LightYellow;
-        }
-
-        private void updateButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
+        //פתיחת טופס עדכון על בנאדם נבחר
         private void Row_DoubleClick(object sender, MouseButtonEventArgs e)
         {
             addWindow addWindow = new addWindow(dataGrid.SelectedItem, this);
             addWindow.Show();
+            FillCmb();
+
         }
 
         private void openMenu(object sender, RoutedEventArgs e)
@@ -120,147 +78,109 @@ namespace Project
             contextMenu.IsOpen = true;
         }
 
+        //מחיקת בנאדם
         private async void deletePerson(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("למחוק את הבנאדם?", "אישור מחיקה",
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (System.Windows.MessageBox.Show("למחוק?", "אישור מחיקה", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 Person p = (Person)dataGrid.SelectedItem;
                 people.peopleList.Remove(p);
-                if (MessageBox.Show(p.name + " נמחק בהצלחה") == MessageBoxResult.OK)
+                if (System.Windows.MessageBox.Show(p.name + " נמחק בהצלחה") == MessageBoxResult.OK)
                 {
                     RefreshDataGrid();
                 }
-
             }
         }
 
+        //עריכת בנאדם
         private void editPerson(object sender, RoutedEventArgs e)
         {
             addWindow addWindow = new addWindow(dataGrid.SelectedItem, this);
             addWindow.Show();
+            FillCmb();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            File.WriteAllText("..//..//..//people.json", Newtonsoft.Json.JsonConvert.SerializeObject(people.peopleList));
+            ExcelManager.WriteExcel();
+            File.WriteAllText("..//..//..//remarks.txt", this.remarks);
+            var jsonString = JsonConvert.SerializeObject(people.peopleList);
+            File.WriteAllText("..//..//..//people.txt", jsonString);
         }
 
-        private void fCbx_Click(object sender, RoutedEventArgs e)
-        {
-            FilterTable();
-        }
-
-        private void mCbx_Click(object sender, RoutedEventArgs e)
-        {
-            FilterTable();
-        }
-
-        private void peaCbx_Click(object sender, RoutedEventArgs e)
-        {
-            FilterTable();
-
-        }
-
-        private void mitpachatCbx_Click(object sender, RoutedEventArgs e)
-        {
-            FilterTable();
-
-        }
-
-        private void workCbx_Click(object sender, RoutedEventArgs e)
-        {
-            FilterTable();
-
-        }
-
-        private void learnCbx_Click(object sender, RoutedEventArgs e)
-        {
-            FilterTable();
-
-        }
-
-        private void FilterTable()
+        private void FilterTable(object sender, EventArgs e)
         {
             filteredPeople = people.peopleList;
 
-            if (freeSearchTxb.Text != "חיפוש")
+            int minAge = 0;
+            int maxAge = 0;
+
+            try
             {
-                filteredPeople = SmartSearch.Search(filteredPeople, freeSearchTxb.Text);
+                minAge = Convert.ToInt32(ageTxb.Text.Substring(5, 2));
             }
-
-            if (fCbx.IsChecked == true && mCbx.IsChecked==false) filteredPeople = filteredPeople.Where(p => p.gender == "בחורה").ToList();
-            if (mCbx.IsChecked == true && fCbx.IsChecked==false) filteredPeople = filteredPeople.Where(p => p.gender == "בחור").ToList();
-
-            if (peaCbx.IsChecked == true) filteredPeople = filteredPeople.Where(p => p.peaOrMitpachat.Contains("פאה")).ToList();
-            if (mitpachatCbx.IsChecked == true) filteredPeople = filteredPeople.Where(p => p.peaOrMitpachat.Contains("מטפחת")).ToList();
-
-            if (learnCbx.IsChecked == true) filteredPeople = filteredPeople.Where(p => p.learnOrWork.Contains("לומד")).ToList();
-            if (workCbx.IsChecked == true) filteredPeople = filteredPeople.Where(p => p.learnOrWork.Contains("עובד")).ToList();
-           
-            mFilters.Where(mo => mo.isSelected == true)
-                 .ToList()
-                 .ForEach(m => filteredPeople = filteredPeople.Where(p => p.motsa.Contains(m.name)).ToList());
-
-            eFilters.Where(ed => ed.isSelected == true)
-                 .ToList()
-                 .ForEach(e => filteredPeople = filteredPeople.Where(p => p.eda.Contains(e.name)).ToList());
-
-            dataGrid.ItemsSource = filteredPeople;
-        }
-
-        private void edaListBox(object sender, RoutedEventArgs e)
-        {
-            FilterTable();
-        }
-
-        private void motsaListBox(object sender, RoutedEventArgs e)
-        {
-            FilterTable();
-        }
-
-        private void freeSearchTxb_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            freeSearchTxb.TextChanged -= freeSearchTxb_TextChanged;
-
-            if (freeSearchTxb.Text == "חיפוש")
+            catch (Exception ex) { }
+            try
             {
-                freeSearchTxb.Text = "";
-                freeSearchTxb.Foreground = Brushes.Black;
-                freeSearchTxb.FontStyle = FontStyles.Normal;
+                maxAge = Convert.ToInt32(ageTxb.Text.Substring(11, 2));
             }
-            freeSearchTxb.TextChanged += freeSearchTxb_TextChanged;
-        }
+            catch (Exception ex) { }
 
-        private void freeSearchTxb_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            freeSearchTxb.TextChanged-= freeSearchTxb_TextChanged;
-            if (freeSearchTxb.Text == "")
+
+            if (freeSearchTxb != null && dataGrid != null)
             {
-                freeSearchTxb.Text = "חיפוש";
-                freeSearchTxb.Foreground = Brushes.Gray;
-                freeSearchTxb.FontStyle = FontStyles.Italic;
-            }
-            else
-            {
-                if (freeSearchTxb.Text.Contains("חיפוש")&& freeSearchTxb.Text!="חיפוש")
+                if (freeSearchTxb.Text != "")
                 {
-                    freeSearchTxb.Text=freeSearchTxb.Text.Replace("חיפוש", "");
-                    freeSearchTxb.Foreground = Brushes.Black;
-                    freeSearchTxb.FontStyle = FontStyles.Normal;
+                    filteredPeople = SmartSearch.Search(filteredPeople, freeSearchTxb.Text);
                 }
+
+                if (maleRdn.IsChecked == true)
+                    filteredPeople = filteredPeople.Where(p => p.gender == "זכר").ToList();
+
+                if (fmaleRdn.IsChecked == true)
+                    filteredPeople = filteredPeople.Where(p => p.gender == "נקבה").ToList();
+
+                if (kisooyCmb.SelectedIndex != -1)
+                {
+                    var a = kisooyRosh[kisooyCmb.SelectedIndex];
+                    if (a != "לא משנה")
+                        filteredPeople = filteredPeople.Where(p => p.kisooyRosh.Equals(a)).ToList();
+                    else
+                    {
+                        filteredPeople = filteredPeople.Where(p => p.kisooyRosh.Equals("פאה") || p.kisooyRosh.Equals("מטפחת") || p.kisooyRosh.Equals("לא משנה")).ToList();
+                    }
+                }
+
+                if (migzarCmb.SelectedIndex != -1)
+                {
+                    var a = migzar[migzarCmb.SelectedIndex];
+                    filteredPeople = filteredPeople.Where(p => p.migzar.Equals(a)).ToList();
+                }
+
+                if (edaCmb.SelectedIndex != -1)
+                {
+                    var a = edot[edaCmb.SelectedIndex];
+                    filteredPeople = filteredPeople.Where(p => p.eda.Equals(a)).ToList();
+                }
+
+                if (statusCmb.SelectedIndex != -1)
+                {
+                    var a = statuses[statusCmb.SelectedIndex];
+                    filteredPeople = filteredPeople.Where(p => p.status.Equals(a)).ToList();
+                }
+
+                if (minAge != 0)
+                {
+                    filteredPeople = filteredPeople.Where(p => Convert.ToInt32(p.age).CompareTo(minAge) >= 0).ToList();
+                }
+
+                if (maxAge != 0)
+                {
+                    filteredPeople = filteredPeople.Where(p => Convert.ToInt32(p.age).CompareTo(maxAge) <= 0).ToList();
+                }
+
+                dataGrid.ItemsSource = filteredPeople;
             }
-            freeSearchTxb.TextChanged += freeSearchTxb_TextChanged;
-
-            FilterTable();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            freeSearchTxb.Text = "חיפוש";
-            freeSearchTxb.Foreground = Brushes.Gray;
-            freeSearchTxb.FontStyle = FontStyles.Italic;
         }
 
         public void RefreshDataGrid()
@@ -268,7 +188,7 @@ namespace Project
             dataGrid.ItemsSource = null;
             this.filteredPeople = people.peopleList;
             dataGrid.ItemsSource = filteredPeople;
-            FilterTable();
+            FilterTable(new object(), new EventArgs());
         }
 
         private void dataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -310,5 +230,49 @@ namespace Project
             }
             return null;
         }
+
+        private void clearBtn_Click(object sender, RoutedEventArgs e)
+        {
+            //ניקוי כל החיפוש
+            maleRdn.IsChecked = false;
+            fmaleRdn.IsChecked = false;
+            ageTxb.Text = "";
+            edaCmb.Text = "";
+            migzarCmb.Text = "";
+            kisooyCmb.Text = "";
+            statusCmb.Text = "";
+            freeSearchTxb.Text = "";
+            dataGrid.ItemsSource = people.peopleList;
+        }
+
+        private void clearFreeSearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            freeSearchTxb.Text = "";
+            FilterTable(sender, e);
+        }
+
+        private void clearGroupBoxBtn_Click(object sender, RoutedEventArgs e)
+        {
+            maleRdn.IsChecked = false;
+            fmaleRdn.IsChecked = false;
+            ageTxb.Text = "";
+            edaCmb.Text = "";
+            migzarCmb.Text = "";
+            kisooyCmb.Text = "";
+            statusCmb.Text = "";
+            dataGrid.ItemsSource = people.peopleList;
+        }
+
+        private void statusTxb_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            File.WriteAllText("..//..//..//remarks.txt", statusTxb.Text);
+        }
+
+        private void dataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            addWindow addWindow = new addWindow(dataGrid.SelectedItem, this);
+            addWindow.Show();
+        }
     }
 }
+

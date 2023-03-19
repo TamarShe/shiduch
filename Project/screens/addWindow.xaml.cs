@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using MahApps.Metro.Controls;
+using Microsoft.Win32;
 using Project.classes;
 using Project.Classes.Person;
 using System;
@@ -26,85 +27,46 @@ namespace Project
         update
     }
 
-    public partial class addWindow : Window
+    public partial class addWindow : MetroWindow
     {
+        string[] migzar;
+        string[] edot;
+        string[] kisooyRosh;
+        string[] statuses;
         status status = status.add;
         Person person;
-        string gender;
         mainScreen parent;
 
-
-        public addWindow(string gender,mainScreen parent)
+        //הוספת חדש
+        public addWindow(mainScreen parent,string gender)
         {
             InitializeComponent();
-            FillCmb();
             this.parent = parent;
-            this.gender = gender;
+            this.migzar = parent.migzar;
+            this.edot = parent.edot;
+            this.kisooyRosh = parent.kisooyRosh;
+            this.statuses = parent.statuses;
             person = new Person();
             person.gender = gender;
-            if (gender == "m")
-            {
-                title.Content = "הוספת בחור";
-                yeshivaOrSeminarLbl.Content = "ישיבה";
-            }
-            else 
-            { 
-                title.Content = "הוספת בחורה";
-                yeshivaOrSeminarLbl.Content = "סמינר";
-            }
+            InitDetails();
         }
 
+        //עדכון בנאדם קיים
         public addWindow(object p,mainScreen parent)
         {
             InitializeComponent();
-            FillCmb();
             this.parent = parent;
+            this.migzar = parent.migzar;
+            this.edot = parent.edot;
+            this.kisooyRosh = parent.kisooyRosh;
+            this.statuses = parent.statuses;
             person = (Person)p;
             status = status.update;
-            gender = person.gender;
-            if (gender == "בחור")
-            {
-                yeshivaOrSeminarLbl.Content = "ישיבה";
-            }
-            else
-            {
-                yeshivaOrSeminarLbl.Content = "סמינר";
-            }
-            FillFields();
-        }
-
-        private void FillCmb()
-        {
-            edaCmb.ItemsSource = people.peopleList.Select(p=>p.eda);
-            motsaCmb.ItemsSource = people.peopleList.Select(p => p.motsa);
-        }
-
-        private void FillFields()
-        {
-            nameTxb.Text = person.name;
-            ageTxb.Text = person.age;
-            cityTxb.Text = person.city;
-            phoneTxb.Text = person.phone;
-            parentsTxb.Text = person.parents;
-            friendsTxb.Text = person.friends;
-            yeshivaOrSeminarTxb.Text = person.yeshivaOrSeminar;
-            jobTxb.Text = person.job;
-            emailTxb.Text = person.email;
-            edaCmb.Text = person.eda;
-            detailsTxb.Text = person.details;
-            motsaCmb.Text = person.motsa;
-            gender = person.gender;
-            detailsTxb.Text=person.details;
+            InitDetails();
+            //edaCmb.Text = person.eda;
+            kisooyRoshCmb.Text = person.kisooyRosh;
+            //migzarCmb.Text = person.migzar;
             statusCmb.Text = person.status;
-            if (person.learnOrWork.Contains("לומד"))
-                learnCbx.IsChecked = true;
-            if (person.learnOrWork.Contains("עובד"))
-                workCbx.IsChecked = true;
-            if (person.peaOrMitpachat.Contains("פאה"))
-                peaCbx.IsChecked = true;
-            if (person.peaOrMitpachat.Contains("מטפחת"))
-                mitpachatCxb.IsChecked = true;
-
             if (person.imageUrl != null && person.imageUrl != "")
             {
                 BitmapImage bitmap = new BitmapImage();
@@ -115,60 +77,54 @@ namespace Project
             }
         }
 
-        private void SaveP(object sender, RoutedEventArgs e)
+        //איתחול דברים בטופס
+        private void InitDetails()
         {
-            if (status == status.add)
-                SaveNew();
-            else
-                Update();
+            DataContext = person;
+            statusCmb.ItemsSource = statuses;
+            edaCmb.ItemsSource = edot;
+            migzarCmb.ItemsSource= migzar;
+            kisooyRoshCmb.ItemsSource = kisooyRosh;
         }
 
-        private void SaveNew()
+        private void SavePerson(object sender, RoutedEventArgs e)
         {
-            person = new Person();
-            person.id = people.peopleList.Max(p=>p.id)+"";
-            SaveDetails();
-            people.peopleList.Add(person);
+            try
+            {
+                person.kisooyRosh = kisooyRosh[kisooyRoshCmb.SelectedIndex];
+            }
+            catch (Exception ex) { }
+            try
+            {
+                person.status = statuses[statusCmb.SelectedIndex];
+            }
+
+            catch (Exception ex) { }
+            person.learnOrWork = "";
+            if (learnCbx.IsChecked == true)
+            {
+                person.learnOrWork += "לומד ";
+            }
+            if (workCbx.IsChecked == true)
+            {
+                if (person.learnOrWork != "")
+                {
+                    person.learnOrWork += "ו";
+                }
+                person.learnOrWork += "עובד";
+            }
+            if (status == status.add)
+            {
+                person.id = people.peopleList.Max(p => p.id) + "";
+                people.peopleList.Add(person);
+            }
+            else
+            {
+                people.peopleList.RemoveAll(p => p.id == person.id);
+                people.peopleList.Add(person);
+            }
             MessageBox.Show("נשמר בהצלחה!");
             this.Close();
-        }
-
-        private void Update()
-        {
-            people.peopleList.Remove(person);
-            SaveDetails();
-            people.peopleList.Add(person);
-            MessageBox.Show("עודכן בהצלחה!");
-            this.Close();
-        }
-
-        private void SaveDetails()
-        {
-            person.name = nameTxb.Text;
-            person.email = emailTxb.Text;
-            person.details = detailsTxb.Text;
-            person.status = statusCmb.Text + "";
-            person.phone = phoneTxb.Text;
-            person.age = ageTxb.Text;
-            person.city = cityTxb.Text;
-            person.eda = edaCmb.Text;
-            person.motsa = motsaCmb.Text;
-            person.parents = parentsTxb.Text;
-            person.job = jobTxb.Text;
-            person.yeshivaOrSeminar = yeshivaOrSeminarTxb.Text;
-            person.peaOrMitpachat = "";
-            person.learnOrWork = "";
-            person.gender = gender;
-            person.friends = friendsTxb.Text;
-
-            if (peaCbx.IsChecked == true)
-                person.peaOrMitpachat += "פאה";
-            if (mitpachatCxb.IsChecked == true)
-                person.peaOrMitpachat += " מטפחת";
-            if (learnCbx.IsChecked == true)
-                person.learnOrWork += "לומד";
-            if (workCbx.IsChecked == true)
-                person.learnOrWork += " עובד";
         }
 
         void mouseEnter(object sender, RoutedEventArgs e)
